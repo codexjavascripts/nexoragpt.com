@@ -1,0 +1,10 @@
+{
+  "name": "nexoragpt",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "A self-hosted AI chat and image platform powered by AI Horde.",
+  "engines": { "node": ">=22.13" },
+  "scripts": { "start": "node --env-file=.env server.js", "check": "node --check server.js && node --check public/app.js" },
+  "dependencies": { "mammoth": "^1.10.0", "pdf-parse": "^1.1.1" }
+}

@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#f7f6fb">
+  <meta name="description" content="NEXORAGPT — a thoughtful AI workspace powered by community AI Horde models.">
+  <title>NEXORAGPT</title>
+  <link rel="icon" href="/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/styles.css">
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <section id="authScreen" class="guest-load" hidden>
+    <div class="guest-load-card">
+      <div class="brand"><span class="brand-mark">N</span><span>NEXORA<span class="brand-light">GPT</span></span></div>
+      <h1>Your private workspace</h1>
+      <p id="startupMessage">Starting a guest session on this device…</p>
+      <button id="retryStartup" class="small-button primary">Try again</button>
+    </div>
+  </section>
+
+  <div id="appShell" class="app-shell" hidden>
+    <aside id="sidebar" class="sidebar">
+      <div class="sidebar-head">
+        <a class="brand" href="#chat" aria-label="NEXORAGPT home"><span class="brand-mark">N</span><span>NEXORA<span class="brand-light">GPT</span></span></a>
+        <button id="mobileClose" class="icon-button mobile-close" aria-label="Close menu">×</button>
+      </div>
+      <button id="newChat" class="new-chat"><span class="plus">＋</span><span>New chat</span><kbd>Ctrl K</kbd></button>
+      <nav class="primary-nav" aria-label="Main navigation">
+        <button class="nav-item active" data-page="chat"><span class="nav-icon">◌</span>Chat</button>
+        <button class="nav-item" data-page="images"><span class="nav-icon">▧</span>Image studio</button>
+        <button class="nav-item" data-page="explore"><span class="nav-icon">✧</span>Explore</button>
+        <button class="nav-item" data-page="plugins"><span class="nav-icon">⌘</span>Plugins <span class="nav-count" id="pluginCount">0</span></button>
+      </nav>
+      <div class="history-head"><span>Recent chats</span><button id="searchToggle" class="icon-button mini-icon" title="Search chats" aria-label="Search chats">⌕</button></div>
+      <div id="chatSearchBox" class="chat-search-box" hidden><input id="chatSearch" type="search" placeholder="Search conversations"><button id="clearSearch" aria-label="Clear search">×</button></div>
+      <div id="chatHistory" class="chat-history"></div>
+      <div class="sidebar-bottom">
+        <button class="nav-item" data-page="settings"><span class="nav-icon">⚙</span>Settings</button>
+        <button id="themeToggle" class="theme-control"><span class="theme-icon">◐</span><span>Dark appearance</span><span class="switch"><i></i></span></button>
+        <button id="userMenu" class="user-menu"><span id="userAvatar" class="avatar">G</span><span class="user-copy"><strong id="userName">Guest</strong><small id="userContext">Private guest workspace</small></span><span class="more">···</span></button>
+      </div>
+    </aside>
+    <div id="sidebarScrim" class="sidebar-scrim"></div>
+
+    <main class="main-area">
+      <header class="topbar">
+        <button id="mobileMenu" class="icon-button mobile-menu" aria-label="Open menu">☰</button>
+        <div class="top-title"><span class="top-title-name" id="topTitle">Chat</span><span class="provider-tag"><i></i> AI Horde</span></div>
+        <div class="top-actions"><span id="modelStatus" class="model-status">Community models</span><button id="topSettings" class="icon-button top-settings" title="Settings" aria-label="Settings">⚙</button></div>
+      </header>
+      <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+      <section id="chatPage" class="page chat-page">
+        <div id="chatMessages" class="chat-messages"></div>
+        <div id="welcome" class="welcome">
+          <div class="welcome-bloom"><span>✳</span></div>
+          <p class="eyebrow">YOUR THOUGHTFUL AI WORKSPACE</p>
+          <h1>What can I help you<br><em>work through?</em></h1>
+          <p class="welcome-sub">Ask a question, share an idea, or bring something you’re working on.</p>
+          <div class="prompt-grid">
+            <button class="prompt-card" data-prompt="Help me understand a topic step by step, with a simple example."><span class="prompt-icon violet">▤</span><span><strong>Learn something</strong><small>Make a tricky topic clearer</small></span><b>↗</b></button>
+            <button class="prompt-card" data-prompt="Help me brainstorm fresh ideas for a project. Ask me one question if you need context."><span class="prompt-icon orange">✳</span><span><strong>Find an idea</strong><small>Turn a blank page into a start</small></span><b>↗</b></button>
+            <button class="prompt-card" data-prompt="Help me improve this writing for clarity and flow: "><span class="prompt-icon blue">✎</span><span><strong>Write &amp; refine</strong><small>Shape a draft into something clear</small></span><b>↗</b></button>
+            <button class="prompt-card" data-prompt="Help me reason through this coding problem. Explain the approach, then show an example: "><span class="prompt-icon green">&lt;/&gt;</span><span><strong>Solve a problem</strong><small>Work through code or logic</small></span><b>↗</b></button>
+          </div>
+          <p class="free-note"><span>✳</span> Free to use · Community powered · Queue times can vary</p>
+        </div>
+        <div class="composer-wrap">
+          <div id="attachmentChips" class="attachment-chips"></div>
+          <form id="composer" class="composer">
+            <input id="filePicker" type="file" accept="image/*,.pdf,.docx,.txt,.md,.csv,.json" hidden>
+            <button type="button" id="attachButton" class="composer-tool" title="Attach a file" aria-label="Attach a file">＋</button>
+            <textarea id="messageInput" rows="1" placeholder="Message NEXORAGPT…" aria-label="Message NEXORAGPT"></textarea>
+            <button type="submit" id="sendButton" class="send-button" aria-label="Send message"><span>↑</span></button>
+          </form>
+          <p class="composer-foot">AI Horde uses community-hosted models. Avoid sending sensitive information.</p>
+        </div>
+      </section>
+
+      <section id="imagesPage" class="page content-page" hidden>
+        <div class="page-heading"><div><p class="eyebrow">MAKE SOMETHING VISUAL</p><h1>Image studio</h1><p>Describe what you imagine. AI Horde will find an available community worker.</p></div><span class="heading-art">✺</span></div>
+        <div class="image-create-card"><label for="imagePrompt">Describe your image</label><textarea id="imagePrompt" rows="3" placeholder="A cozy reading nook on a rainy afternoon, soft natural light, watercolor illustration…"></textarea><div class="image-options"><label class="select-label">Size<select id="imageSize"><option value="512x512">Square · 512 × 512</option><option value="768x512">Landscape · 768 × 512</option><option value="512x768">Portrait · 512 × 768</option><option value="1024x576">Wide · 1024 × 576</option><option value="768x1024">Portrait · 768 × 1024</option></select></label><label class="select-label">Style<select id="imageStyle"><option value="none">Natural</option><option value="watercolor">Watercolor</option><option value="photo">Photographic</option><option value="anime">Anime illustration</option><option value="pixel">Pixel art</option><option value="digital">Digital illustration</option></select></label><span class="image-provider"><i></i> AI Horde image workers</span><button id="generateImage" class="primary-button"><span>✧</span> Generate image</button></div><p class="fine-print">Generation uses volunteer worker capacity. Queue times vary, and availability is not guaranteed.</p></div>
+        <div class="section-title"><div><h2>Your creations</h2><p>Images saved to this guest workspace</p></div><span id="imageCount" class="muted-count"></span></div>
+        <div id="imageGallery" class="image-gallery"></div>
+      </section>
+
+      <section id="explorePage" class="page content-page" hidden>
+        <div class="page-heading"><div><p class="eyebrow">A GOOD PLACE TO BEGIN</p><h1>Explore</h1><p>Choose a starting point. NEXORAGPT can adapt as you work.</p></div><span class="heading-art">✧</span></div>
+        <div class="explore-toolbar"><div class="explore-search"><span>⌕</span><input id="exploreSearch" type="search" placeholder="Find a starting point"></div><div id="categoryFilters" class="category-filters"></div></div>
+        <div id="exploreGrid" class="explore-grid"></div>
+      </section>
+
+      <section id="pluginsPage" class="page content-page" hidden>
+        <div class="page-heading"><div><p class="eyebrow">TOOLS THAT GET THINGS DONE</p><h1>Plugins</h1><p>Connect practical helpers to your workspace. Each one explains what data it uses.</p></div><span class="heading-art">⌘</span></div>
+        <div class="plugin-notice"><span>ⓘ</span><p>Plugins run only when you open them. Each integration shows what it sends and where it goes.</p></div>
+        <div id="pluginGrid" class="plugin-grid"></div>
+      </section>
+
+      <section id="settingsPage" class="page content-page settings-page" hidden>
+        <div class="page-heading"><div><p class="eyebrow">MAKE IT YOURS</p><h1>Settings</h1><p>Manage your display name, appearance, model, and guest data.</p></div><span class="heading-art">⚙</span></div>
+        <div class="settings-layout">
+          <div class="settings-tabs"><button class="settings-tab active" data-settings="profile">Profile</button><button class="settings-tab" data-settings="ai">AI model</button><button class="settings-tab" data-settings="privacy">Privacy</button></div>
+          <div class="settings-panel" id="settingsContent"></div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <dialog id="pluginDialog" class="modal"><form method="dialog" class="modal-card"><button class="modal-close" value="cancel" aria-label="Close">×</button><div id="pluginDialogContent"></div></form></dialog>
+</body>
+</html>
